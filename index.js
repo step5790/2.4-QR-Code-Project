@@ -17,9 +17,9 @@ inquirer
     },
   ])
   .then((answers) => {
-    console.log(answers);
-    const url = answers;
+    const url = answers.URL;
     makeQR(url);
+    writeAnswer(url);
   })
   .catch((error) => {
     if (error.isTtyError) {
@@ -34,14 +34,14 @@ function makeQR(url) {
   console.log(url);
 
   var qr_svg = qr.image(url);
-  qr_svg.pipe(fs.createWriteStream("i_love_qr.svg"));
-
-  var svg_string = qr.imageSync("I love QR!", { type: "svg" });
+  qr_svg.pipe(fs.createWriteStream("i_love_qr.png"));
 }
 
 // *** write ***
 function writeAnswer(url) {
-  writeFile("url.txt", url, "utf-8", (err) => {
+  console.log(url);
+
+  fs.writeFile("url.txt", url, "utf-8", (err) => {
     if (err) throw err;
     console.log("The file has been saved!");
   });
